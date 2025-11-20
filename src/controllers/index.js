@@ -1,0 +1,6 @@
+export { default as authController } from './authController'
+export { default as productController } from './productController'
+export { default as cartController } from './cartController'
+export { default as commentController } from './commentController'
+export { default as evaluationController } from './evaluationController'
+export { default as userController } from './userController'

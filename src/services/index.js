@@ -1,0 +1,8 @@
+export { default as authService } from './authService'
+export { default as productService } from './productService'
+export { default as cartService } from './cartService'
+export { default as commentService } from './commentService'
+export { default as evaluationService } from './evaluationService'
+export { default as userService } from './userService'
+export { default as imageService } from './imageService'
+export { default as api } from './api'
