@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import commentController from '../controllers/commentController';
 import evaluationController from '../controllers/evaluationController';
 import Footer from '../components/Footer.jsx';
-import { ShoppingCart, ArrowLeft, Star, StarHalf, MessageCircle, Send, Trash2, Package, Sparkles, CheckCircle, XCircle } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, Star, StarHalf, MessageCircle, Send, Trash2, Package, Sparkles, CheckCircle, XCircle, ChevronDown } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 const ProductDetail = () => {
@@ -20,6 +20,7 @@ const ProductDetail = () => {
   const [newRating, setNewRating] = useState(5);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [fromAdmin, setFromAdmin] = useState(false);
+  const [showEvaluations, setShowEvaluations] = useState(false);
 
   useEffect(() => {
     fetchProductById(id);
@@ -169,7 +170,7 @@ const ProductDetail = () => {
         id_product: parseInt(id),
         id_user: user.id,
         assessment: newRating,
-        comment: '' // Opcional
+        comment: '' 
       });
       await Swal.fire({
         icon: 'success',
@@ -444,14 +445,22 @@ const ProductDetail = () => {
         </div>
 
         <div className="bg-white p-6 lg:p-8 rounded-2xl shadow-xl slide-up mb-8" style={{animationDelay: '0.4s'}}>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-gradient-to-br from-yellow-500 to-orange-500 p-3 rounded-xl">
-              <Star className="w-6 h-6 text-white" />
+          <button 
+            onClick={() => setShowEvaluations(!showEvaluations)}
+            className="w-full flex items-center justify-between gap-3 mb-6 hover:bg-slate-50 p-3 rounded-xl transition-all duration-300"
+          >
+            <div className="flex items-center gap-3">
+              <div className="bg-gradient-to-br from-yellow-500 to-orange-500 p-3 rounded-xl">
+                <Star className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-2xl lg:text-3xl font-bold gradient-text">Valoraciones</h2>
             </div>
-            <h2 className="text-2xl lg:text-3xl font-bold gradient-text">Evaluaciones</h2>
-          </div>
+            <ChevronDown className={`w-6 h-6 text-slate-600 transition-transform duration-300 ${showEvaluations ? 'rotate-180' : ''}`} />
+          </button>
           
-          <form onSubmit={handleRatingSubmit} className="mb-8 p-5 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border-2 border-slate-200">
+          {showEvaluations && (
+            <div className="space-y-6 animate-fadeIn">
+              <form onSubmit={handleRatingSubmit} className="p-5 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border-2 border-slate-200">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <label className="font-semibold text-slate-700">Tu calificación:</label>
               <select
@@ -513,6 +522,8 @@ const ProductDetail = () => {
               <Star className="w-16 h-16 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500 font-medium">No hay evaluaciones todavía</p>
               <p className="text-slate-400 text-sm">Sé el primero en evaluar este producto</p>
+            </div>
+          )}
             </div>
           )}
         </div>
